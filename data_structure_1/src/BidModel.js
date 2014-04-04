@@ -14,3 +14,6 @@ Bid.prototype.create_new_bid = function (activity_name) {
     });
     localStorage.setItem("activities", JSON.stringify(activities));
 }
+Bid.get_current_bid = function(){
+    return localStorage.current_bid;
+}
