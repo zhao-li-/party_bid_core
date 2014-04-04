@@ -25,7 +25,7 @@ SignUp.save = function (sms_json) {
     var activities = Activity.get_activities();
     _.map(activities, function (activity) {
         if (activity.name == Activity.get_active_activity_name()) {
-            activity.sign_ups.unshift(sign_up);
+            activity.sign_ups.push(sign_up);
         }
     })
     localStorage.setItem("activities", JSON.stringify(activities));

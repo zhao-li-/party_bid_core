@@ -22,3 +22,8 @@ Activity.get_active_activity = function () {
         return activity.name == localStorage.current_activity;
     })
 }
+Activity.get_this_activity = function(activity_name){
+    return _.find(Activity.get_activities(), function (activity) {
+        return activity.name == activity_name;
+    })
+}
