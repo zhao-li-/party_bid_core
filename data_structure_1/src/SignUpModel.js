@@ -20,8 +20,8 @@ SignUp.not_signing_up = function () {
         return true;
     }
 }
-SignUp.save = function (sms_json) {
-    var sign_up = new SignUp(sms_json);
+SignUp.prototype.save = function () {
+    var sign_up = this;
     var activities = Activity.get_activities();
     _.map(activities, function (activity) {
         if (activity.name == Activity.get_active_activity_name()) {
@@ -37,5 +37,6 @@ SignUp.process_sign_up_sms = function (sms_json) {
     if (SignUp.not_signing_up()) {
         return;
     }
-    SignUp.save(sms_json);
+    var sign_up = new SignUp(sms_json);
+    sign_up.save();
 }

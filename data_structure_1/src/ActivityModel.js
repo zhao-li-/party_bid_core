@@ -12,7 +12,7 @@ Activity.prototype.active = function () {
     localStorage.current_activity = this.name;
 }
 Activity.get_activities = function () {
-    return JSON.parse(localStorage.activities) || [];
+    return JSON.parse(localStorage.activities);
 }
 Activity.get_active_activity_name = function () {
     return localStorage.current_activity;
@@ -22,7 +22,7 @@ Activity.get_active_activity = function () {
         return activity.name == localStorage.current_activity;
     })
 }
-Activity.get_this_activity = function(activity_name){
+Activity.get_this_activity = function (activity_name) {
     return _.find(Activity.get_activities(), function (activity) {
         return activity.name == activity_name;
     })
