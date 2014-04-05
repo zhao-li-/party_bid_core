@@ -13,10 +13,9 @@ SignUp.prototype.save_sign_up = function(){
     })
     localStorage.setItem("activities",JSON.stringify(activities));
 }
-SignUp.prototype.has_signed=function(){
-    var phone = this.phone;
+SignUp.has_signed=function(sms_json){
     if(_.find(Activity.get_this_activity(Activity.get_current_activity()).sign_ups,function(sign_up){
-        return sign_up.phone == phone;
+        return sign_up.phone == sms_json.messages[0].phone;
     })){
         return true;
     }
@@ -28,12 +27,12 @@ SignUp.not_signing_up = function () {
     }
 }
 SignUp.process_sign_up_sms =function(sms_json){
-    var sign_up = new SignUp(sms_json);
-    if(sign_up.has_signed()){
+    if(SignUp.has_signed(sms_json)){
         return;
     }
     if (SignUp.not_signing_up()) {
         return;
     }
+    var sign_up = new SignUp(sms_json);
     sign_up.save_sign_up();
 }

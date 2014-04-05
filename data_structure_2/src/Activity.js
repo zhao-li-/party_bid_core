@@ -34,3 +34,10 @@ Activity.get_this_activity=function(activity_name){
     var activities = Activity.get_activities();
     return activities[activity_name];
 }
+Activity.get_current_bid = function(){
+    return localStorage.current_bid;
+}
+Activity.get_current_biddings_in_activity = function(){
+    var bid = Activity.get_current_bid();
+    return Activity.get_this_activity(Activity.get_current_activity()).biddings[bid];
+}
