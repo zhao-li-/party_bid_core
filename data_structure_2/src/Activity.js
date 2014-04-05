@@ -24,3 +24,13 @@ Activity.prototype.create = function () {
     localStorage.current_activity = count;
     localStorage.activity_id_generator = count+1;
 }
+Activity.get_fore_two_string = function (sms_json) {
+    return sms_json.messages[0].message.replace(/\s/g, "").substring(0, 2).toUpperCase();
+}
+Activity.get_current_activity = function(){
+    return localStorage.current_activity;
+}
+Activity.get_this_activity=function(activity_name){
+    var activities = Activity.get_activities();
+    return activities[activity_name];
+}
