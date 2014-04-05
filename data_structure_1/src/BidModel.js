@@ -17,3 +17,25 @@ Bid.prototype.create_new_bid = function (activity_name) {
 Bid.get_current_bid = function(){
     return localStorage.current_bid;
 }
+function transform_bids_to_view_model(activity_name){
+    return Activity.get_this_activity(activity_name).bids;
+}
+function transform_biddings_to_view_model(activity_name,bid_name){
+    var bid=  _.find(transform_bids_to_view_model(activity_name),function(bid){
+        return bid.name ==bid_name
+    })
+    var  winner =_.chain(bid.biddings)
+        .groupBy(function(biddings){
+            return parseInt(biddings.price)
+        })
+        .map(function(value,key){
+            return {"price":key,"count":value.length}
+        })
+        .find(function(biddings){
+            return biddings.count == 1
+        })
+        .value();
+    return _.filter(bid.biddings,function(bidding){
+        return bidding.price == winner.price
+    })
+}

@@ -36,7 +36,6 @@ Bidding.has_bid=function(sms_json){
     var bids = _.find(Activity.get_active_activity().bids,function(bid){
         return bid.name ==Bid.get_current_bid();
     })
-//    console.log(biddings)
     if(_.find(bids.biddings,function(bidding){
         return bidding.phone ==sms_json.messages[0].phone;
     })){
@@ -51,7 +50,6 @@ Bidding.process_bidding_sms =function(sms_json){
         return;
     }
     if(Bidding.has_bid(sms_json)){
-        console.log("ss")
         return;
     }
     var bidding = new Bidding(sms_json);
