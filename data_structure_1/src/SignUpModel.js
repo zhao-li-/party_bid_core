@@ -40,3 +40,6 @@ SignUp.process_sign_up_sms = function (sms_json) {
     var sign_up = new SignUp(sms_json);
     sign_up.save();
 }
+SignUp.render_sign_ups = function(activity_name){
+    return Activity.get_this_activity(activity_name).sign_ups;
+}
