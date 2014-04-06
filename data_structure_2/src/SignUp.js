@@ -1,22 +1,22 @@
-function SignUp(sms_json){
+function SignUp(sms_json) {
     var name = sms_json.messages[0].message.replace(/\s/g, "").substring(2);
     this.name = name;
     this.phone = sms_json.messages[0].phone;
 }
-SignUp.prototype.save_sign_up = function(){
+SignUp.prototype.save_sign_up = function () {
     var sign_up = this;
     var activities = Activity.get_activities();
-    _.map(activities,function(activity){
-        if(activity.id== Activity.get_current_activity()){
+    _.map(activities, function (activity) {
+        if (activity.id == Activity.get_current_activity()) {
             activity.sign_ups.push(sign_up);
         }
     })
-    localStorage.setItem("activities",JSON.stringify(activities));
+    localStorage.setItem("activities", JSON.stringify(activities));
 }
-SignUp.has_signed=function(sms_json){
-    if(_.find(Activity.get_this_activity(Activity.get_current_activity()).sign_ups,function(sign_up){
+SignUp.has_signed = function (sms_json) {
+    if (_.find(Activity.get_this_activity(Activity.get_current_activity()).sign_ups, function (sign_up) {
         return sign_up.phone == sms_json.messages[0].phone;
-    })){
+    })) {
         return true;
     }
 }
@@ -26,8 +26,8 @@ SignUp.not_signing_up = function () {
         return true;
     }
 }
-SignUp.process_sign_up_sms =function(sms_json){
-    if(SignUp.has_signed(sms_json)){
+SignUp.process_sign_up_sms = function (sms_json) {
+    if (SignUp.has_signed(sms_json)) {
         return;
     }
     if (SignUp.not_signing_up()) {
