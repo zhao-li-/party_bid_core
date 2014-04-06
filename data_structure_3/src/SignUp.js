@@ -6,8 +6,8 @@ function SignUp(sms_json){
 SignUp.get_sign_ups = function(){
     return JSON.parse(localStorage.sign_ups);
 }
-SignUp.prototype.has_signed = function(){
-    var  phone = this.phone;
+SignUp.has_signed = function(sms_json){
+    var  phone = sms_json.messages[0].phone;
     if(_.find(SignUp.get_sign_ups(),function(sign_up){
         return sign_up.phone == phone;
     })){
@@ -22,7 +22,7 @@ SignUp.not_signing_up = function () {
 }
 SignUp.process_sign_up_sms = function(sms_json){
     var sign_up = new SignUp(sms_json);
-    if(sign_up.has_signed()){
+    if(SignUp.has_signed(sms_json)){
         return;
     }
     if(SignUp.not_signing_up()){

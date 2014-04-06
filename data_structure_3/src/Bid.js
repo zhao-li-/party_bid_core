@@ -7,6 +7,15 @@ function Bid (activity_id){
 Bid.get_bids = function(){
     return JSON.parse(localStorage.bids);
 }
+Bid.get_current_bid = function(){
+    return localStorage.current_bid;
+}
+Bid.get_current_biddings = function(){
+    var bid = _.find(Bid.get_bids(),function(bid){
+        return bid.activity_id ==Activity.get_current_activity_id()&&bid.name == Bid.get_current_bid();
+    })
+    return bid.biddings;
+}
 Bid.get_this_bids = function(activity_id){
     return _.filter(Bid.get_bids(),function(bid){
         return bid.activity_name == activity_id;
