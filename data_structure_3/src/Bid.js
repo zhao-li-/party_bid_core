@@ -27,3 +27,8 @@ Bid.create_new_bid = function(activity_id){
     bids.push(bid);
     localStorage.setItem("bids",JSON.stringify(bids));
 }
+Bid.render_bids = function(activity_id){
+    return _.filter(Bid.get_bids(),function(bid){
+        return bid.activity_id == activity_id;
+    })
+}
