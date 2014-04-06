@@ -50,21 +50,21 @@ function transform_biddings_to_view_model(activity_id, bid_name) {
         .groupBy(function (bidding) {
             return parseInt(bidding.price)
         })
-        .map(function(value,key){
-            return{"price":key,"count":value.length}
+        .map(function (value, key) {
+            return{"price": key, "count": value.length}
         })
-        .find(function(bidding){
+        .find(function (bidding) {
             return bidding.count == 1;
         })
         .value();
-    var winner_bidding =_.find(biddings[bid_name],function(bidding){
+    var winner_bidding = _.find(biddings[bid_name], function (bidding) {
         return bidding.price == bid_price.price
     })
-    var sign_up = _.find(Activity.get_this_activity(activity_id).sign_ups,function(sign_up){
+    var sign_up = _.find(Activity.get_this_activity(activity_id).sign_ups, function (sign_up) {
         return sign_up.phone == winner_bidding.phone;
     })
     var winner_infos = [];
-    var winner_info = {"name":sign_up.name,"phone":winner_bidding.phone,"price":winner_bidding.price}
+    var winner_info = {"name": sign_up.name, "phone": winner_bidding.phone, "price": winner_bidding.price}
     winner_infos.push(winner_info);
     return winner_infos;
 }

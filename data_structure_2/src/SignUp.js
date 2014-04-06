@@ -26,8 +26,8 @@ SignUp.not_signing_up = function () {
         return true;
     }
 }
-SignUp.render_sign_ups = function(activity_name){
-    var activity = _.find(Activity.get_activities(),function(activity){
+SignUp.render_sign_ups = function (activity_name) {
+    var activity = _.find(Activity.get_activities(), function (activity) {
         return activity.name == activity_name;
     })
     return activity.sign_ups;
