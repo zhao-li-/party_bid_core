@@ -14,28 +14,28 @@ Bid.prototype.create_new_bid = function (activity_name) {
     });
     localStorage.setItem("activities", JSON.stringify(activities));
 }
-Bid.get_current_bid = function(){
+Bid.get_current_bid = function () {
     return localStorage.current_bid;
 }
-function transform_bids_to_view_model(activity_name){
+function transform_bids_to_view_model(activity_name) {
     return Activity.get_this_activity(activity_name).bids;
 }
-function transform_biddings_to_view_model(activity_name,bid_name){
-    var bid=  _.find(transform_bids_to_view_model(activity_name),function(bid){
-        return bid.name ==bid_name
+function transform_biddings_to_view_model(activity_name, bid_name) {
+    var bid = _.find(transform_bids_to_view_model(activity_name), function (bid) {
+        return bid.name == bid_name
     })
-    var  winner =_.chain(bid.biddings)
-        .groupBy(function(biddings){
+    var winner = _.chain(bid.biddings)
+        .groupBy(function (biddings) {
             return parseInt(biddings.price)
         })
-        .map(function(value,key){
-            return {"price":key,"count":value.length}
+        .map(function (value, key) {
+            return {"price": key, "count": value.length}
         })
-        .find(function(biddings){
+        .find(function (biddings) {
             return biddings.count == 1
         })
         .value();
-    return _.filter(bid.biddings,function(bidding){
+    return _.filter(bid.biddings, function (bidding) {
         return bidding.price == winner.price
     })
 }

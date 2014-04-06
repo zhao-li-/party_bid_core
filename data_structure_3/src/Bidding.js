@@ -1,6 +1,6 @@
-function Bidding(sms_json){
+function Bidding(sms_json) {
     this.phone = sms_json.messages[0].phone;
-    this.price =sms_json.messages[0].message.replace(/\s/g, "").substring(2);
+    this.price = sms_json.messages[0].message.replace(/\s/g, "").substring(2);
 }
 Bidding.not_on_bidding = function () {
     var is_bidding = localStorage.is_bidding;
@@ -8,36 +8,36 @@ Bidding.not_on_bidding = function () {
         return true;
     }
 }
-Bidding.prototype.has_bid = function(){
+Bidding.prototype.has_bid = function () {
     var phone = this.phone;
-    if(_.find(Bid.get_current_biddings(),function(bidding){
+    if (_.find(Bid.get_current_biddings(), function (bidding) {
         return bidding.phone == phone;
-    })){
+    })) {
         return true;
     }
 }
-Bidding.process_bidding_sms = function(sms_json){
+Bidding.process_bidding_sms = function (sms_json) {
     var bidding = new Bidding(sms_json);
     if (Bidding.not_on_bidding()) {
         return true;
     }
-    if(!SignUp.has_signed(sms_json)){
+    if (!SignUp.has_signed(sms_json)) {
         return;
     }
     if (bidding.has_bid()) {
         return;
     }
     var bids = Bid.get_bids();
-    _.map(bids,function(bid){
-        if(bid.activity_id ==Activity.get_current_activity_id()&&bid.name == Bid.get_current_bid()){
+    _.map(bids, function (bid) {
+        if (bid.activity_id == Activity.get_current_activity_id() && bid.name == Bid.get_current_bid()) {
             bid.biddings.push(bidding);
         }
     })
-    localStorage.setItem("bids",JSON.stringify(bids));
+    localStorage.setItem("bids", JSON.stringify(bids));
 }
-Bidding.render_biddings = function(activity_id,bid_name){
-    var bid = _.find(Bid.get_bids(),function(bid){
-        return bid.activity_id ==activity_id&&bid.name == bid_name;
+Bidding.render_biddings = function (activity_id, bid_name) {
+    var bid = _.find(Bid.get_bids(), function (bid) {
+        return bid.activity_id == activity_id && bid.name == bid_name;
     })
     var bid_price = _.chain(bid.biddings)
         .groupBy(function (bidding) {
@@ -54,7 +54,7 @@ Bidding.render_biddings = function(activity_id,bid_name){
         return bidding.price == bid_price.price
     })
     var sign_up = _.find(SignUp.get_sign_ups(), function (sign_up) {
-        return sign_up.phone == winner_bidding.phone &&sign_up.activity_id ==activity_id ;
+        return sign_up.phone == winner_bidding.phone && sign_up.activity_id == activity_id;
     })
     var winner_infos = [];
     var winner_info = {"name": sign_up.name, "phone": winner_bidding.phone, "price": winner_bidding.price}
