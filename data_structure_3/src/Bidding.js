@@ -35,7 +35,7 @@ Bidding.process_bidding_sms = function (sms_json) {
     })
     localStorage.setItem("bids", JSON.stringify(bids));
 }
-Bidding.render_biddings = function (activity_id, bid_name) {
+Bidding.get_winner_bidding = function(activity_id,bid_name){
     var bid = _.find(Bid.get_bids(), function (bid) {
         return bid.activity_id == activity_id && bid.name == bid_name;
     })
@@ -50,9 +50,12 @@ Bidding.render_biddings = function (activity_id, bid_name) {
             return bidding.count == 1;
         })
         .value();
-    var winner_bidding = _.find(bid.biddings, function (bidding) {
+    return _.find(bid.biddings, function (bidding) {
         return bidding.price == bid_price.price
     })
+}
+Bidding.render_biddings = function (activity_id, bid_name) {
+    var winner_bidding=Bidding.get_winner_bidding(activity_id,bid_name)
     var sign_up = _.find(SignUp.get_sign_ups(), function (sign_up) {
         return sign_up.phone == winner_bidding.phone && sign_up.activity_id == activity_id;
     })

@@ -44,7 +44,7 @@ Activity.get_current_biddings_in_activity = function () {
 function transform_bids_to_view_model(activity_name) {
     return Activity.get_this_activity(activity_name).bids;
 }
-function transform_biddings_to_view_model(activity_id, bid_name) {
+function find_winner_bidding(activity_id, bid_name) {
     var biddings = Activity.get_this_activity(activity_id).biddings;
     var bid_price = _.chain(biddings[bid_name])
         .groupBy(function (bidding) {
@@ -57,9 +57,12 @@ function transform_biddings_to_view_model(activity_id, bid_name) {
             return bidding.count == 1;
         })
         .value();
-    var winner_bidding = _.find(biddings[bid_name], function (bidding) {
+    return _.find(biddings[bid_name], function (bidding) {
         return bidding.price == bid_price.price
     })
+}
+function transform_biddings_to_view_model(activity_id, bid_name) {
+    var winner_bidding = find_winner_bidding(activity_id, bid_name)
     var sign_up = _.find(Activity.get_this_activity(activity_id).sign_ups, function (sign_up) {
         return sign_up.phone == winner_bidding.phone;
     })
